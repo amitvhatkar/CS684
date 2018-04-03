@@ -64,14 +64,18 @@ public class Home extends AppCompatActivity {
         //graph.getViewport().setDrawBorder(true);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
         graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-        graph.getGridLabelRenderer().setNumVerticalLabels(11);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(10);
+        graph.getGridLabelRenderer().setNumVerticalLabels(51);
+        //graph.getGridLabelRenderer().setNumHorizontalLabels(10);
         Viewport viewport = graph.getViewport();
+        viewport.setXAxisBoundsManual(true);
+        viewport.setMinX(0);
+        viewport.setMaxX(250);
         viewport.setYAxisBoundsManual(true);
-        viewport.setMaxY(15);
-        viewport.setMinY(-15);
+        viewport.setMaxY(50);
+        viewport.setMinY(-50);
 
         viewport.setScrollableY(true);
+        viewport.setScrollable(true);
 
 
 
@@ -96,16 +100,17 @@ public class Home extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataValue:
                 dataSnapshot.getChildren()) {
-                    Log.w("Values", new Integer(dataValue.getKey().toString())+"" +new Integer(dataValue.child("value").getValue().toString()));
                     //series = new LineGraphSeries<DataPoint>(new DataPoint[] {});
                     //new Integer(dataValue.getKey().toString())
+                    //new Integer(dataValue.getKey().toString())+
                     series.appendData(
                             new DataPoint( xValue++,new Integer(dataValue.child("value").getValue().toString())),
                             true,
-                            10
+                            100
                     );
                     graph.addSeries(series);
                 }
+                Log.w("Values----", "" +series.isDrawDataPoints());
             }
 
             @Override

@@ -82,11 +82,15 @@ public class HomePage extends AppCompatActivity
         Log.w("Getting use Name", Common.currentUser.getUserName());
 
 
-        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey().limitToLast(10);
+        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey().limitToLast(100);
 
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                xValue = 0;
+                series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                        new DataPoint(0, 0)
+                });
                 for (DataSnapshot dataValue:
                         dataSnapshot.getChildren()) {
                     Log.w("Values", new Integer(dataValue.getKey().toString())+"" +new Integer(dataValue.child("value").getValue().toString()));
@@ -95,10 +99,12 @@ public class HomePage extends AppCompatActivity
                     series.appendData(
                             new DataPoint( xValue++,new Integer(dataValue.child("value").getValue().toString())),
                             true,
-                            10
+                            100
                     );
-                    graph.addSeries(series);
                 }
+                graph.removeAllSeries();
+                graph.addSeries(series);
+                Log.w("Serise", series.getThickness()+"");
             }
 
             @Override
@@ -124,14 +130,18 @@ public class HomePage extends AppCompatActivity
         //graph.getViewport().setDrawBorder(true);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
         graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-        graph.getGridLabelRenderer().setNumVerticalLabels(11);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(10);
+        //graph.getGridLabelRenderer().setNumVerticalLabels(51);
+        //graph.getGridLabelRenderer().setNumHorizontalLabels(10);
         Viewport viewport = graph.getViewport();
+        viewport.setXAxisBoundsManual(true);
+        viewport.setMinX(0);
+        viewport.setMaxX(100);
         viewport.setYAxisBoundsManual(true);
-        viewport.setMaxY(15);
-        viewport.setMinY(-15);
+        viewport.setMaxY(50);
+        viewport.setMinY(-50);
 
         viewport.setScrollableY(true);
+        viewport.setScrollable(true);
     }
 
     @Override
