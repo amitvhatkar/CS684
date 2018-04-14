@@ -82,7 +82,7 @@ public class HomePage extends AppCompatActivity
         Log.w("Getting use Name", Common.currentUser.getUserName());
 
 
-        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey().limitToLast(100);
+        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey();//.limitToLast(60);
 
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,13 +93,14 @@ public class HomePage extends AppCompatActivity
                 });
                 for (DataSnapshot dataValue:
                         dataSnapshot.getChildren()) {
-                    Log.w("Values", new Integer(dataValue.getKey().toString())+"" +new Integer(dataValue.child("value").getValue().toString()));
+                    //Log.w("Whichc val", xValue+""+dataValue.child("value").getValue().toString());
+                    //Log.w("Values", xValue+" " +new Integer("7.000"));
                     //series = new LineGraphSeries<DataPoint>(new DataPoint[] {});
                     //new Integer(dataValue.getKey().toString())
                     series.appendData(
-                            new DataPoint( xValue++,new Integer(dataValue.child("value").getValue().toString())),
+                            new DataPoint( xValue++,Integer.parseInt(dataValue.child("value").getValue().toString())),
                             true,
-                            100
+                            3000
                     );
                 }
                 graph.removeAllSeries();
@@ -120,26 +121,31 @@ public class HomePage extends AppCompatActivity
         series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(0, 0)
         });
+
         series.setAnimated(true);
         graph.setTitle("ECG Readings");
         graph.setFocusable(true);
         graph.setSoundEffectsEnabled(true);
         graph.getGridLabelRenderer().setHumanRounding(false);
-        graph.getGridLabelRenderer().setHorizontalAxisTitle("Time");
+        //graph.getGridLabelRenderer().setHorizontalAxisTitle("Time");
         //graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.VERTICAL );
         //graph.getViewport().setDrawBorder(true);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
         graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
         //graph.getGridLabelRenderer().setNumVerticalLabels(51);
         //graph.getGridLabelRenderer().setNumHorizontalLabels(10);
+        //graph.setMinimumWidth(1);
+        //graph.setScroll
         Viewport viewport = graph.getViewport();
         viewport.setXAxisBoundsManual(true);
         viewport.setMinX(0);
         viewport.setMaxX(100);
         viewport.setYAxisBoundsManual(true);
-        viewport.setMaxY(50);
-        viewport.setMinY(-50);
+        viewport.setMaxY(1200);
+        viewport.setMinY(-600);
 
+        viewport.setScalableY(true);
+        viewport.setScalable(true);
         viewport.setScrollableY(true);
         viewport.setScrollable(true);
     }

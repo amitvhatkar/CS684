@@ -1,0 +1,18 @@
+2018-04-10T21:10:38.837Z - error: SUPERVISOR error Error: listen EADDRINUSE 127.0.0.1:5001
+    at Object._errnoException (util.js:1022:11)
+    at _exceptionWithHostPort (util.js:1044:20)
+    at Server.setupListenHandle [as _listen2] (net.js:1367:14)
+    at listenInCluster (net.js:1408:12)
+    at GetAddrInfoReqWrap.doListen [as callback] (net.js:1517:7)
+    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:97:10)
+2018-04-10T21:10:38.839Z - error: supervisorPort (5001) is already in use
+2018-04-10T21:10:38.840Z - error: restPort (5002) is already in use
+2018-04-10T21:18:56.960Z - info: User function triggered, starting execution
+2018-04-10T21:18:56.971Z - info: Execution took 13 ms, user function completed successfully
+2018-04-10T21:18:59.023Z - info: User function triggered, starting execution
+2018-04-10T21:18:59.026Z - info: Execution took 2 ms, user function completed successfully
+2018-04-10T21:19:13.406Z - info: Worker for app closed due to file changes.
+2018-04-10T21:19:22.900Z - info: User function triggered, starting execution
+2018-04-10T21:19:22.910Z - info: Execution took 10 ms, user function completed successfully
+2018-04-10T21:19:24.094Z - info: User function triggered, starting execution
+2018-04-10T21:19:24.096Z - info: Execution took 2 ms, user function completed successfully
