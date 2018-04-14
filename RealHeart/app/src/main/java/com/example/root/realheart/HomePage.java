@@ -2,8 +2,6 @@ package com.example.root.realheart;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.realheart.Common.Common;
+import com.example.root.realheart.Model.Abnormality;
+import com.example.root.realheart.Remote.APIService;
+import com.example.root.realheart.Service.ListenToNotificationService;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,10 +40,13 @@ public class HomePage extends AppCompatActivity
 
     FirebaseDatabase database;
     DatabaseReference ecgReadings;
+    DatabaseReference abnormalityReference;
+    DatabaseReference userReference;
 
     GraphView graph;
     LineGraphSeries<DataPoint> series;
 
+    APIService mService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,7 @@ public class HomePage extends AppCompatActivity
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
-
+        mService =Common.getFCMService();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,9 +76,20 @@ public class HomePage extends AppCompatActivity
 
         database = FirebaseDatabase.getInstance();
         ecgReadings = database.getReference("ECGReading");
+        abnormalityReference = database.getReference("Abnormality");
+        userReference= database.getReference("User");
+
+        //Call Service
+        Intent notificationService=new Intent(HomePage.this, ListenToNotificationService.class);
+        startService(notificationService);
+
+        //Call Service
+        Intent abnormalityService=new Intent(HomePage.this, ListenToNotificationService.class);
+        startService(abnormalityService);
 
         setGraphParameters();
         getECGValues();
+
 
     }
 
@@ -98,20 +113,27 @@ public class HomePage extends AppCompatActivity
                     //series = new LineGraphSeries<DataPoint>(new DataPoint[] {});
                     //new Integer(dataValue.getKey().toString())
 
+
                     String ecgReadings[] = dataValue.child("value").getValue().toString().split(",");
                     for (String value: ecgReadings
                          ) {
                         series.appendData(
                                 new DataPoint( xValue++,Integer.parseInt(value)),
-                                false,
-                                300
+                                true,
+                                500000
                             );
                     }
                     /**/
                 }
                 graph.removeAllSeries();
                 graph.addSeries(series);
-                Log.w("Serise", series.getThickness()+"");
+                //Log.w("Serise", series.getThickness()+"");
+
+
+                //checkAbnormality();
+
+
+
             }
 
             @Override
@@ -121,6 +143,20 @@ public class HomePage extends AppCompatActivity
         });
 
     }
+
+    /*private void checkAbnormality() {
+
+        int noOfAbn = Integer.parseInt(Common.currentUser.getNoOfAbn());
+        if (noOfAbn == 0){
+            Common.currentUser.setNoOfAbn((++noOfAbn)+"");
+            int heartRate = 50;
+            Abnormality abnormality = new Abnormality(Common.currentUser.getUserName(),"Low Heart Rate", "Heart rate decresed to lowest level and is "+heartRate+" bpm", "false", noOfAbn+"");
+            abnormalityReference.child((noOfAbn++)+"").setValue(abnormality);
+            userReference.child(Common.currentUser.getUserName()).setValue(Common.currentUser);
+            //sendAbnormalityNotification();
+        }
+
+    }*/
 
     private void setGraphParameters() {
         graph = (GraphView) findViewById(R.id.graph);
@@ -156,7 +192,8 @@ public class HomePage extends AppCompatActivity
         viewport.setScrollable(true);
     }
 
-    @Override
+
+            @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -192,8 +229,10 @@ public class HomePage extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
+
+        int id = item.getItemId();
+        Toast.makeText(this, "Loging Id"+id, Toast.LENGTH_SHORT).show();
         if (id == R.id.nav_sensor) {
 
         } else if (id == R.id.nav_appointment) {
@@ -207,6 +246,7 @@ public class HomePage extends AppCompatActivity
             Toast.makeText(this, "Yet to implement", Toast.LENGTH_SHORT).show();
         }else{
 
+            Log.w("Why Log hpening !!", "Dont know");
             Intent signIn = new Intent(HomePage.this, SignIn.class);
             signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

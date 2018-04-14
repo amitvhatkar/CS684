@@ -9,14 +9,17 @@ public class User {
     private String Name;
     private String Password;
     private String Phone;
+    private String noOfAbn;
 
     public User() {
     }
 
-    public User(String name, String password, String phone) {
+    public User(String userName, String name, String password, String phone, String noOfAbn) {
+        this.userName = userName;
         Name = name;
         Password = password;
         Phone = phone;
+        this.noOfAbn = noOfAbn;
     }
 
     @Override
@@ -26,7 +29,16 @@ public class User {
                 ", Name='" + Name + '\'' +
                 ", Password='" + Password + '\'' +
                 ", Phone='" + Phone + '\'' +
+                ", noOfAbn='" + noOfAbn + '\'' +
                 '}';
+    }
+
+    public String getNoOfAbn() {
+        return noOfAbn;
+    }
+
+    public void setNoOfAbn(String noOfAbn) {
+        this.noOfAbn = noOfAbn;
     }
 
     public String getUserName() {

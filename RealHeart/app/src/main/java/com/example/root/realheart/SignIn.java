@@ -52,7 +52,7 @@ public class SignIn extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Check if user exists
-                        Log.w("What is shappening", dataSnapshot.child(edtUserName.getText().toString()).exists()+"");
+                        //Log.w("What is shappening", dataSnapshot.child(edtUserName.getText().toString()).exists()+"");
                         if(dataSnapshot.child(edtUserName.getText().toString()).exists()) {
 
 
@@ -60,11 +60,11 @@ public class SignIn extends AppCompatActivity {
                             mDialog.dismiss();
                             User user = dataSnapshot.child(edtUserName.getText().toString()).getValue(User.class);
                             user.setPhone(edtUserName.getText().toString());
-                            Log.w("user in sigin up..", user.toString());
+                            //Log.w("user in sigin up..", user.toString());
                             if(user.getPassword().equals(edtPassword.getText().toString())) {
                                 Intent homeIntent =new Intent(SignIn.this,HomePage.class);
 
-                                Log.w("user in sigin up", user.toString());
+                                //Log.w("user in sigin up", user.toString());
 
                                 user.setUserName(edtUserName.getText().toString());
                                 Common.currentUser =user;

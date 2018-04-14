@@ -17,11 +17,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignIn" />
-        <activity android:name=".Home" />
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home_page"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+
+        <service
+            android:name=".Service.ListenToNotificationService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".Service.ChkAbnormalityService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
