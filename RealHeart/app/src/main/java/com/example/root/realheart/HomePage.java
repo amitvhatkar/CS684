@@ -82,7 +82,7 @@ public class HomePage extends AppCompatActivity
         Log.w("Getting use Name", Common.currentUser.getUserName());
 
 
-        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey();//.limitToLast(60);
+        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey().limitToLast(100);
 
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -97,11 +97,17 @@ public class HomePage extends AppCompatActivity
                     //Log.w("Values", xValue+" " +new Integer("7.000"));
                     //series = new LineGraphSeries<DataPoint>(new DataPoint[] {});
                     //new Integer(dataValue.getKey().toString())
-                    series.appendData(
-                            new DataPoint( xValue++,Integer.parseInt(dataValue.child("value").getValue().toString())),
-                            true,
-                            3000
-                    );
+
+                    String ecgReadings[] = dataValue.child("value").getValue().toString().split(",");
+                    for (String value: ecgReadings
+                         ) {
+                        series.appendData(
+                                new DataPoint( xValue++,Integer.parseInt(value)),
+                                false,
+                                300
+                            );
+                    }
+                    /**/
                 }
                 graph.removeAllSeries();
                 graph.addSeries(series);
@@ -126,7 +132,7 @@ public class HomePage extends AppCompatActivity
         graph.setTitle("ECG Readings");
         graph.setFocusable(true);
         graph.setSoundEffectsEnabled(true);
-        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.getGridLabelRenderer().setHumanRounding(true);
         //graph.getGridLabelRenderer().setHorizontalAxisTitle("Time");
         //graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.VERTICAL );
         //graph.getViewport().setDrawBorder(true);
@@ -139,7 +145,7 @@ public class HomePage extends AppCompatActivity
         Viewport viewport = graph.getViewport();
         viewport.setXAxisBoundsManual(true);
         viewport.setMinX(0);
-        viewport.setMaxX(100);
+        viewport.setMaxX(120);
         viewport.setYAxisBoundsManual(true);
         viewport.setMaxY(1200);
         viewport.setMinY(-600);
