@@ -206,10 +206,8 @@ public class HomePage extends AppCompatActivity
             //Snackbar.make(item.getActionView(), "Yet to implement", Snackbar.LENGTH_SHORT);
             Toast.makeText(this, "Yet to implement", Toast.LENGTH_SHORT).show();
         }else{
-
             Intent signIn = new Intent(HomePage.this, SignIn.class);
             signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
             startActivity(signIn);
         }
 
