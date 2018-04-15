@@ -1,7 +1,13 @@
 package com.example.root.realheart;
 
+import android.*;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +34,7 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-
+        //checkAndroidVersion();
         edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
         edtUserName = (MaterialEditText) findViewById(R.id.edtUserName);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
@@ -88,4 +94,6 @@ public class SignIn extends AppCompatActivity {
             }
         });
     }
+
+
 }

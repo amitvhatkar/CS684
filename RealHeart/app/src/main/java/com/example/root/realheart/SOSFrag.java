@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -114,12 +116,21 @@ public class SOSFrag extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SharedPreferences sp = getActivity().getSharedPreferences("emer", Context.MODE_PRIVATE);
+        ArrayList<String> numList=new ArrayList<>();
         String num1=sp.getString("num1", null);
         String num2=sp.getString("num2", null);
         String num3=sp.getString("num3", null);
+        numList.add(num1);
+        numList.add(num2);
+        numList.add(num3);
         try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(num1, null, "Hello", null, null);
+            for(String num:numList)
+            {
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(num, null, "Hello", null, null);
+            }
+            /*SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(num1, null, "Hello", null, null);*/
             Toast.makeText(getActivity(), "Message Sent",
                     Toast.LENGTH_LONG).show();
         } catch (Exception ex) {

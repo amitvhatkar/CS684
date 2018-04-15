@@ -1,10 +1,15 @@
 package com.example.root.realheart;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        checkAndroidVersion();
         txtSlogan = (TextView) findViewById(R.id.txtSlogan);
         Typeface face=Typeface.createFromAsset(getAssets(),"fonts/Nabila.ttf");
         txtSlogan.setTypeface(face);
@@ -61,5 +66,37 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    public void checkAndroidVersion(){
+        //this.mobile= mobile;
+        if (Build.VERSION.SDK_INT >= 23) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.SEND_SMS);
+            if(checkCallPhonePermission != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{android.Manifest.permission.SEND_SMS},200);
+                return;
+            }else{
+                //sendSms(mobile);
+            }
+        } else {
+            //sendSms(mobile);
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 200: {
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // {Some Code}
+
+                }
+                else
+                {
+                    finish();
+                }
+
+            }
+        }
+    }
 }
