@@ -12,12 +12,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="startDAte">START DATE</string>
-    <string name="startTime">START TIME</string>
-    <string name="selectDAte">SELECT DATE</string>
-    <string name="selectTime">SELECT TIME</string>
-    <string name="shedule">SHEDULE</string>
-    <string name="duration">DURATION</string>
+    <string name="startDate">Start Date</string>
+    <string name="startTime">Start Time</string>
+    <string name="selectDAte">Select Date</string>
+    <string name="selectTime">Select Time</string>
+    <string name="shedule">Shedule</string>
+    <string name="duration">Duration</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>

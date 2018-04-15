@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.realheart.Common.Common;
+import com.example.root.realheart.Model.Abnormality;
 import com.example.root.realheart.Remote.APIService;
 import com.example.root.realheart.Service.ChkAbnormalityService;
 import com.example.root.realheart.Service.ListenToNotificationService;
@@ -34,7 +35,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class HomePage extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,MedicineFragment.OnFragmentInteractionListener, EmergencyContactFrag.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,MedicineFragment.OnFragmentInteractionListener, EmergencyContactFrag.OnFragmentInteractionListener,SOSFrag.OnFragmentInteractionListener {
 
     TextView txtUserName, txtName;
 
@@ -47,14 +48,11 @@ public class HomePage extends AppCompatActivity
 
     GraphView graph;
     LineGraphSeries<DataPoint> series;
-<<<<<<< HEAD
     LinearLayout user;
-=======
 
     public static int noItrn = 10, stdMean = 516, upperBound =stdMean + 250, lowerBound = stdMean - 250, preEpoch = 0;
     public int tempItern = noItrn;
 
->>>>>>> 2c59a84dd6bbc53534ad4ffae223d170afacb917
     APIService mService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,10 +298,11 @@ public class HomePage extends AppCompatActivity
         } else if (id == R.id.nav_reports) {
             fr=new EmergencyContactFrag();
             //Snackbar.make(item.getActionView(), "Yet to implement", Snackbar.LENGTH_SHORT);
-            Toast.makeText(this, "Yet to implement", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Yet to implement", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_bill) {
+            fr=new SOSFrag();
             //Snackbar.make(item.getActionView(), "Yet to implement", Snackbar.LENGTH_SHORT);
-            Toast.makeText(this, "Yet to implement", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Yet to implement", Toast.LENGTH_SHORT).show();
         }else{
 
 

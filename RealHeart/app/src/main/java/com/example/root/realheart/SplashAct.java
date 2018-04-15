@@ -15,8 +15,8 @@ public class SplashAct extends AppCompatActivity implements Runnable,Animation.A
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
+        setContentView(R.layout.activity_splash);
+        //getSupportActionBar().hide();
         iv=(ImageView)findViewById(R.id.splash_image);
         Handler handler = new Handler();
         handler.postDelayed(this, 500);
@@ -31,7 +31,7 @@ public class SplashAct extends AppCompatActivity implements Runnable,Animation.A
         am.setAnimationListener(this);
         iv.startAnimation(am);
         iv.setVisibility(View.VISIBLE);
-	/*	finish();
+	    /*finish();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);*/
 
@@ -54,6 +54,5 @@ public class SplashAct extends AppCompatActivity implements Runnable,Animation.A
     @Override
     public void onAnimationRepeat(Animation animation) {
         // TODO Auto-generated method stub
-
     }
 }

@@ -50,7 +50,6 @@ public class ListenToNotificationService extends Service implements ChildEventLi
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
     }
-
     private void showNotification(User user) {
 
         Log.w("In LTN", "Showing notification");
@@ -60,17 +59,10 @@ public class ListenToNotificationService extends Service implements ChildEventLi
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Abnormality abnormality = dataSnapshot.getValue(Abnormality.class);
 
-<<<<<<< HEAD
-                if(abnormality!=null && abnormality.getIsShown().equals("false")) {
-                    Intent intent = new Intent(getBaseContext(), HomePage.class);
-                    PendingIntent contentIntent;
-                    contentIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
-=======
                 if(abnormality.getIsShown().equals("false")) {
                     //Intent intent = new Intent(getBaseContext(), HomePage.class);
                     //PendingIntent contentIntent;
                     //contentIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
->>>>>>> 2c59a84dd6bbc53534ad4ffae223d170afacb917
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext());
                     builder.setAutoCancel(true)

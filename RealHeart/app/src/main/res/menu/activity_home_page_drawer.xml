@@ -11,15 +11,15 @@
         <item
             android:id="@+id/nav_appointment"
             android:icon="@drawable/ic_event_black_24dp"
-            android:title="Book Appointment" />
+            android:title="Medicine Reminder" />
         <item
             android:id="@+id/nav_reports"
             android:icon="@drawable/ic_assignment_black_24dp"
-            android:title="Reports" />
+            android:title="Emergency Contacts" />
         <item
             android:id="@+id/nav_bill"
             android:icon="@drawable/ic_account_balance_wallet_black_24dp"
-            android:title="Pay Bill" />
+            android:title="Send SOS or CALL" />
 
         <item
             android:id="@+id/nav_log_out"

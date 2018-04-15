@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context="com.example.root.realheart.SignIn">
 
     <LinearLayout
@@ -15,17 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cardiogram_128"
+    />
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id = "@+id/edtUserName"
             android:hint="User Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@color/colorAccent"
             android:text="tempuser"
-            android:textColor="@android:color/holo_blue_bright"
+            android:textColor="@color/colorAccent"
             android:textSize="34sp"
             android:inputType="phone"
-            app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/white"
@@ -37,12 +40,11 @@
             android:hint="Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@color/colorAccent"
             android:text="123"
-            android:textColor="@android:color/holo_blue_bright"
+            android:textColor="@color/colorAccent"
             android:textSize="34sp"
             android:inputType="textPassword"
-            app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/white"
