@@ -23,12 +23,12 @@ for record in data["ECGReading"]["asvhatkar"]:
 
 
 X = list(map(int, X))
-print(X)
+#print(X)
 bins = range(0, 1100, 60)
-plt.hist(X, bins)
+print(plt.hist(X, bins))
 #X = list(set(X))
 #X.sort()
-print("\n-------------------------------\n",len(X),"\n-------------------------------\n")
+#print("\n-------------------------------\n",len(X),"\n-------------------------------\n")
 # line 1 points
 Y = list(range(0, 5000))
 # plotting the line 1 points 
@@ -43,4 +43,4 @@ plt.show()
 	
 	
 
-print(sum(X)/len(X))
+#print(hist)
