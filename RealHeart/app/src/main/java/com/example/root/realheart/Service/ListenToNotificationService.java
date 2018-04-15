@@ -61,9 +61,9 @@ public class ListenToNotificationService extends Service implements ChildEventLi
                 Abnormality abnormality = dataSnapshot.getValue(Abnormality.class);
 
                 if(abnormality.getIsShown().equals("false")) {
-                    Intent intent = new Intent(getBaseContext(), HomePage.class);
-                    PendingIntent contentIntent;
-                    contentIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
+                    //Intent intent = new Intent(getBaseContext(), HomePage.class);
+                    //PendingIntent contentIntent;
+                    //contentIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext());
                     builder.setAutoCancel(true)

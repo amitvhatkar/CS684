@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.root.realheart.Common.Common;
 import com.example.root.realheart.Model.Abnormality;
 import com.example.root.realheart.Remote.APIService;
+import com.example.root.realheart.Service.ChkAbnormalityService;
 import com.example.root.realheart.Service.ListenToNotificationService;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,7 +34,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     TextView txtUserName, txtName;
 
     public static int xValue;
@@ -45,6 +45,9 @@ public class HomePage extends AppCompatActivity
 
     GraphView graph;
     LineGraphSeries<DataPoint> series;
+
+    public static int noItrn = 10, stdMean = 516, upperBound =stdMean + 250, lowerBound = stdMean - 250, preEpoch = 0;
+    public int tempItern = noItrn;
 
     APIService mService;
     @Override
@@ -84,8 +87,8 @@ public class HomePage extends AppCompatActivity
         startService(notificationService);
 
         //Call Service
-        Intent abnormalityService=new Intent(HomePage.this, ListenToNotificationService.class);
-        startService(abnormalityService);
+        /*Intent abnormalityService=new Intent(HomePage.this, ChkAbnormalityService.class);
+        startService(abnormalityService);*/
 
         setGraphParameters();
         getECGValues();
@@ -97,7 +100,7 @@ public class HomePage extends AppCompatActivity
         Log.w("Getting use Name", Common.currentUser.getUserName());
 
 
-        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey().limitToLast(100);
+        Query lastQuery = ecgReadings.child(Common.currentUser.getUserName().toString()).orderByKey().limitToLast(120);
 
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -106,34 +109,27 @@ public class HomePage extends AppCompatActivity
                 series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                         new DataPoint(0, 0)
                 });
-                for (DataSnapshot dataValue:
-                        dataSnapshot.getChildren()) {
-                    //Log.w("Whichc val", xValue+""+dataValue.child("value").getValue().toString());
-                    //Log.w("Values", xValue+" " +new Integer("7.000"));
-                    //series = new LineGraphSeries<DataPoint>(new DataPoint[] {});
-                    //new Integer(dataValue.getKey().toString())
-
-
+                for (DataSnapshot dataValue:dataSnapshot.getChildren()) {
+                    int epochSum = 0;
                     String ecgReadings[] = dataValue.child("value").getValue().toString().split(",");
                     for (String value: ecgReadings
                          ) {
-                        series.appendData(
-                                new DataPoint( xValue++,Integer.parseInt(value)),
-                                true,
-                                500000
+                        try {
+                            //Log.w("Home page line 114: ", value+"----");
+                            epochSum = epochSum + Integer.parseInt(value);
+                            series.appendData(
+                                    new DataPoint(xValue++, Integer.parseInt(value)),
+                                    true,
+                                    500000
                             );
+                        }catch (NumberFormatException e){
+                            e.printStackTrace();
+                        }
                     }
-                    /**/
+                    checkAbnormality(epochSum);
                 }
                 graph.removeAllSeries();
                 graph.addSeries(series);
-                //Log.w("Serise", series.getThickness()+"");
-
-
-                //checkAbnormality();
-
-
-
             }
 
             @Override
@@ -144,19 +140,53 @@ public class HomePage extends AppCompatActivity
 
     }
 
-    /*private void checkAbnormality() {
+
+    private void checkAbnormality(int epochSum ) {
 
         int noOfAbn = Integer.parseInt(Common.currentUser.getNoOfAbn());
-        if (noOfAbn == 0){
-            Common.currentUser.setNoOfAbn((++noOfAbn)+"");
-            int heartRate = 50;
-            Abnormality abnormality = new Abnormality(Common.currentUser.getUserName(),"Low Heart Rate", "Heart rate decresed to lowest level and is "+heartRate+" bpm", "false", noOfAbn+"");
-            abnormalityReference.child((noOfAbn++)+"").setValue(abnormality);
-            userReference.child(Common.currentUser.getUserName()).setValue(Common.currentUser);
-            //sendAbnormalityNotification();
-        }
 
-    }*/
+        Log.w("Checking abnormality","Yes checking it" + noOfAbn);
+
+            if (epochSum > upperBound && preEpoch == 1 ){
+                tempItern--;
+                preEpoch = 1;
+            }else if(epochSum > upperBound && preEpoch != 1){
+                tempItern = noItrn-1;
+                preEpoch = 1;
+            }else if (epochSum < lowerBound && preEpoch == -1){
+                tempItern--;
+                preEpoch = -1;
+            }else if(epochSum < lowerBound && preEpoch != -1){
+                tempItern = noItrn-1;
+                preEpoch = -1;
+            }else{
+                tempItern = noItrn;
+                preEpoch = 0;
+            }
+
+        Log.w("Abnormality test", preEpoch+"-------"+tempItern+"----"+noOfAbn);
+
+        if (preEpoch == -1 && tempItern<= 0){
+            Toast.makeText(this, "Abnormal Hart Condition Detected!!!( Low )", Toast.LENGTH_SHORT).show();
+            noOfAbn++;
+            Common.currentUser.setNoOfAbn(noOfAbn+"");
+            Abnormality abnormality = new Abnormality(Common.currentUser.getUserName(),"Low Heart Rate", "Heart rate decreased to lowest level", "false", noOfAbn+"");
+            abnormalityReference.child((noOfAbn)+"").setValue(abnormality);
+            userReference.child(Common.currentUser.getUserName()).setValue(Common.currentUser);
+
+        }else if(preEpoch == 1 && tempItern <= 0){
+            Toast.makeText(this, "Abnormal Hart Condition Detected!!!( Heigh )", Toast.LENGTH_SHORT).show();
+            noOfAbn++;
+            Common.currentUser.setNoOfAbn(noOfAbn+"");
+            Abnormality abnormality = new Abnormality(Common.currentUser.getUserName(),"High Heart Rate", "Heart rate decreased to highest level", "false", noOfAbn+"");
+            abnormalityReference.child((noOfAbn)+"").setValue(abnormality);
+            userReference.child(Common.currentUser.getUserName()).setValue(Common.currentUser);
+        }
+        preEpoch = 0;
+        tempItern = noItrn;
+
+    }
+
 
     private void setGraphParameters() {
         graph = (GraphView) findViewById(R.id.graph);

@@ -34,8 +34,8 @@ for record in data["ECGReading"]["asvhatkar"]:
 		#ax.set_yticks([])
 		#plt.plot(Y, Y, label = "line 1")
 		bins = range(0, 1100, 50)
-		plt.hist(X, bins)
-		plt.show()
+		histo, = plt.hist(X, bins)
+		#plt.show()
 		print(sum(X)/i)
 		X = []
 		Y = []
