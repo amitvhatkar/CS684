@@ -127,7 +127,7 @@ public class SOSFrag extends Fragment {
             for(String num:numList)
             {
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(num, null, "Hello", null, null);
+                smsManager.sendTextMessage(num, null, "Help Required!!!", null, null);
             }
             /*SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(num1, null, "Hello", null, null);*/

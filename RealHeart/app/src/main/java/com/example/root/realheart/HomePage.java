@@ -288,7 +288,7 @@ public class HomePage extends AppCompatActivity
 
         android.support.v4.app.Fragment fr=null;
         int id = item.getItemId();
-        Toast.makeText(this, "Loging Id"+id, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Loging Id"+id, Toast.LENGTH_SHORT).show();
         if (id == R.id.nav_sensor) {
 
         } else if (id == R.id.nav_appointment) {
